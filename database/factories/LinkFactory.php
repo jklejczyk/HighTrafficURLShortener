@@ -17,11 +17,11 @@ class LinkFactory extends Factory
     public function definition(): array
     {
         return [
-            'short_code'   => fake()->unique()->regexify('[a-zA-Z0-9]{7}'),
+            'short_code' => fake()->unique()->regexify('[a-zA-Z0-9]{7}'),
             'original_url' => fake()->url(),
-            'user_id'      => null,
-            'click_count'  => fake()->numberBetween(0, 10000),
-            'expires_at'   => null,
+            'user_id' => null,
+            'click_count' => fake()->numberBetween(0, 10000),
+            'expires_at' => null,
         ];
     }
 

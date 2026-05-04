@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Link;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class RedirectController extends Controller
 {
@@ -17,6 +16,7 @@ class RedirectController extends Controller
         }
 
         $link->increment('click_count');
+
         return redirect($link->original_url, 301);
     }
 }
