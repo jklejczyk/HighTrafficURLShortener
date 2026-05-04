@@ -36,7 +36,7 @@ it('rejects a missing url', function () {
 
 it('rejects a user_id that does not exist in users table', function () {
     postJson('/api/shorten', [
-        'url'     => 'https://google.com',
+        'url' => 'https://google.com',
         'user_id' => 999_999,
     ])
         ->assertStatus(422)
@@ -67,7 +67,7 @@ it('ignores user_id from request body and uses authenticated user instead', func
 
     actingAs($owner)
         ->postJson('/api/shorten', [
-            'url'     => 'https://google.com',
+            'url' => 'https://google.com',
             'user_id' => $other->id,
         ])
         ->assertOk();

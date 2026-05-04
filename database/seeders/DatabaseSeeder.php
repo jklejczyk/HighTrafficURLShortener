@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         $userIds = User::query()->pluck('id')->all();
 
         Link::factory()->count(100)->create([
-            'user_id'    => fn () => fake()->boolean(30) ? fake()->randomElement($userIds) : null,
+            'user_id' => fn () => fake()->boolean(30) ? fake()->randomElement($userIds) : null,
             'expires_at' => fn () => fake()->boolean(20) ? fake()->dateTimeBetween('-7 days', '+30 days') : null,
         ]);
     }

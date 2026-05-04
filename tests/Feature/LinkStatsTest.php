@@ -6,9 +6,9 @@ use function Pest\Laravel\getJson;
 
 it('returns metadata for an existing link', function () {
     $link = Link::factory()->create([
-        'short_code'   => 'abc1234',
+        'short_code' => 'abc1234',
         'original_url' => 'https://google.com',
-        'click_count'  => 42,
+        'click_count' => 42,
     ]);
 
     getJson("/api/stats/{$link->short_code}")
@@ -21,9 +21,9 @@ it('returns metadata for an existing link', function () {
             'expires_at',
         ])
         ->assertJson([
-            'short_code'   => 'abc1234',
+            'short_code' => 'abc1234',
             'original_url' => 'https://google.com',
-            'click_count'  => 42,
+            'click_count' => 42,
         ]);
 });
 

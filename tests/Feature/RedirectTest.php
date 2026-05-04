@@ -6,7 +6,7 @@ use function Pest\Laravel\get;
 
 it('redirects to original url with status 301', function () {
     $link = Link::factory()->create([
-        'short_code'   => 'abc1234',
+        'short_code' => 'abc1234',
         'original_url' => 'https://google.com',
     ]);
 
@@ -27,7 +27,7 @@ it('returns 410 for an expired link', function () {
 
 it('does not return 410 for a link expiring in the future', function () {
     $link = Link::factory()->expiringSoon()->create([
-        'short_code'   => 'future',
+        'short_code' => 'future',
         'original_url' => 'https://example.com',
     ]);
 
@@ -36,7 +36,7 @@ it('does not return 410 for a link expiring in the future', function () {
 
 it('increments click_count after a successful redirect', function () {
     $link = Link::factory()->create([
-        'short_code'  => 'click',
+        'short_code' => 'click',
         'click_count' => 5,
     ]);
 
@@ -47,7 +47,7 @@ it('increments click_count after a successful redirect', function () {
 
 it('does not increment click_count for an expired link', function () {
     $link = Link::factory()->expired()->create([
-        'short_code'  => 'noinc',
+        'short_code' => 'noinc',
         'click_count' => 5,
     ]);
 

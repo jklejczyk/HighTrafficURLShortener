@@ -9,9 +9,7 @@ use Illuminate\Http\JsonResponse;
 
 class LinkController extends Controller
 {
-    public function __construct(public ShortCodeGenerator $shortCodeGenerator)
-    {
-    }
+    public function __construct(public ShortCodeGenerator $shortCodeGenerator) {}
 
     public function store(StoreShortenLinkRequest $request): JsonResponse
     {
