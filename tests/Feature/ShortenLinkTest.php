@@ -74,3 +74,23 @@ it('ignores user_id from request body and uses authenticated user instead', func
 
     expect(Link::query()->first()->user_id)->toBe($owner->id);
 });
+
+it('sets expires_at to 7 days from now', function () {
+    postJson('/api/shorten', ['url' => 'https://google.com'])->assertOk();
+
+    $link = Link::query()->first();
+
+    expect($link->expires_at)->not->toBeNull()
+        ->and($link->expires_at->isSameDay(now()->addDays(7)))->toBeTrue();
+});
+
+it('ignores expires_at from request body and always sets it to 7 days from now', function () {
+    postJson('/api/shorten', [
+        'url' => 'https://google.com',
+        'expires_at' => now()->addDays(30)->toIso8601String(),
+    ])->assertOk();
+
+    $link = Link::query()->first();
+
+    expect($link->expires_at->isSameDay(now()->addDays(7)))->toBeTrue();
+});

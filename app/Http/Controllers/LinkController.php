@@ -18,7 +18,8 @@ class LinkController extends Controller
         $link = Link::create([
             'short_code' => $this->shortCodeGenerator->generate(),
             'original_url' => $validated['url'],
-            'user_id' => $request->user()->id ?? null,
+            'user_id' => $request->user()?->id,
+            'expires_at' => now()->addDays(7),
         ]);
 
         return response()->json([
