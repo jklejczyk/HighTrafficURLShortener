@@ -1,0 +1,26 @@
+name: Security Audit
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  push:
+    branches: [main]
+
+jobs:
+  backend-security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Setup
+        uses: ./.github/actions/setup
+        with:
+          php-version: '8.3'
+
+      - name: Install Project Dependencies
+        run: composer install -q --no-interaction --no-progress
+
+      - name: Perform Project Dependencies Audit
+        run: composer audit

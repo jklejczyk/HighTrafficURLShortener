@@ -1,0 +1,72 @@
+name: Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    env:
+      DB_CONNECTION: pgsql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_DATABASE: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      QUEUE_CONNECTION: redis
+      REDIS_HOST: 127.0.0.1
+
+    services:
+      redis:
+        image: redis:alpine
+        ports:
+          - 6379:6379
+      postgres:
+        image: postgres:18-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Setup
+        uses: ./.github/actions/setup
+        with:
+          php-version: '8.3'
+          coverage: pcov
+
+      - name: Install Project Dependencies
+        run: composer install -q --no-interaction --no-progress
+
+      - name: Copy Environment File
+        run: cp .env.example .env
+
+      - name: Generate Application Key
+        run: php artisan key:generate
+
+      - name: Run Migrations
+        run: php artisan migrate --force
+
+      - name: Run PHPStan
+        run: ./vendor/bin/phpstan analyse
+
+      - name: Run Tests with Coverage
+        run: php artisan test --compact --coverage-clover=coverage.xml
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v6
+        with:
+          files: coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
