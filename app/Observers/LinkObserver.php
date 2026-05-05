@@ -7,9 +7,7 @@ use App\Services\LinkCacheService;
 
 class LinkObserver
 {
-    public function __construct(public LinkCacheService $linkCacheService)
-    {
-    }
+    public function __construct(public LinkCacheService $linkCacheService) {}
 
     public function created(Link $link): void
     {

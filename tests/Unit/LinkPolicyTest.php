@@ -9,7 +9,7 @@ use Tests\TestCase;
 uses(TestCase::class, RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->policy = new LinkPolicy();
+    $this->policy = new LinkPolicy;
 });
 
 it('allows update of anonymous link by guest', function () {

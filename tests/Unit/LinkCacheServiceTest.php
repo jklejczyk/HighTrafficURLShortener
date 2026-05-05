@@ -63,7 +63,7 @@ it('get() does not crash for link with null expires_at', function () {
     Link::factory()->create(['short_code' => 'eternal', 'expires_at' => null]);
     Cache::flush();
 
-    expect(fn () => $this->service->get('eternal'))->not->toThrow(\Throwable::class);
+    expect(fn () => $this->service->get('eternal'))->not->toThrow(Throwable::class);
 });
 
 it('store() caches URL of valid link', function () {
@@ -108,5 +108,5 @@ it('forget() removes cached entry', function () {
 
 it('forget() is idempotent for non-existent key', function () {
     expect(fn () => $this->service->forget('nonexistent'))
-        ->not->toThrow(\Throwable::class);
+        ->not->toThrow(Throwable::class);
 });
