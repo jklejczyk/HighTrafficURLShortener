@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Link;
 
-class ShortCodeGenerator
+class ShortCodeGeneratorService
 {
     private const ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 

@@ -3,20 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Link;
+use App\Services\LinkCacheService;
 use Illuminate\Http\RedirectResponse;
 
 class RedirectController extends Controller
 {
+    public function __construct(public LinkCacheService $linkCacheService)
+    {
+    }
+
     public function redirect(string $code): RedirectResponse
     {
-        $link = Link::where('short_code', $code)->firstOrFail();
+        $url = $this->linkCacheService->get($code) ?? abort(404);
 
-        if ($link->expires_at && $link->expires_at->isPast()) {
-            abort(410);
-        }
+        // TODO: move incrementation to redis
+//        $link->increment('click_count');
 
-        $link->increment('click_count');
-
-        return redirect($link->original_url, 301);
+        return redirect($url, 302);
     }
 }
